@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/Tiles/HexTile.gd" type="Script" id=2]
+[ext_resource path="res://tilesets/tiles/hex-selected.png" type="Texture" id=3]
+[ext_resource path="res://tilesets/tiles/hex-hover.png" type="Texture" id=4]
+[ext_resource path="res://tilesets/tiles/hex-mountain-overlay.png" type="Texture" id=5]
+[ext_resource path="res://tilesets/tiles/hex-fog.png" type="Texture" id=6]
+
+[node name="HexTile" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 41, -71, 82, 0, 41, 71, -41, 71, -82, 0, -41, -71 )
+
+[node name="mainTexture" type="Sprite" parent="."]
+
+[node name="featureTexture" type="Sprite" parent="."]
+z_index = 1
+texture = ExtResource( 5 )
+
+[node name="fogOfWar" type="Sprite" parent="."]
+z_index = 2
+texture = ExtResource( 6 )
+
+[node name="hoverTexture" type="Sprite" parent="."]
+z_index = 3
+texture = ExtResource( 4 )
+
+[node name="selectedTexture" type="Sprite" parent="."]
+z_index = 4
+texture = ExtResource( 3 )
+[connection signal="input_event" from="." to="." method="_on_HexTile_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_HexTile_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_HexTile_mouse_exited"]

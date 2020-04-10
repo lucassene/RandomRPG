@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/mainHUD.gd" type="Script" id=1]
+
+[node name="HUD" type="MarginContainer"]
+margin_right = 119.0
+margin_bottom = 118.0
+mouse_filter = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/margin_right = 25
+custom_constants/margin_top = 25
+custom_constants/margin_left = 25
+custom_constants/margin_bottom = 25
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 25.0
+margin_top = 25.0
+margin_right = 94.0
+margin_bottom = 111.0
+mouse_filter = 2
+
+[node name="index" type="Label" parent="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 14.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Index:"
+
+[node name="id" type="Label" parent="VBoxContainer"]
+margin_top = 18.0
+margin_right = 69.0
+margin_bottom = 32.0
+text = "Tile:"
+
+[node name="neighbors" type="Label" parent="VBoxContainer"]
+margin_top = 36.0
+margin_right = 69.0
+margin_bottom = 50.0
+text = "Neighbors:"
+
+[node name="position" type="Label" parent="VBoxContainer"]
+margin_top = 54.0
+margin_right = 69.0
+margin_bottom = 68.0
+text = "Position:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="time" type="Label" parent="VBoxContainer"]
+margin_top = 72.0
+margin_right = 69.0
+margin_bottom = 86.0
+text = "Time:"
+__meta__ = {
+"_edit_use_anchors_": false
+}

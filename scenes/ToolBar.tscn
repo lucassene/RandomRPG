@@ -1,0 +1,81 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.294118, 0.227451, 0.168627, 1 )
+
+[node name="ToolBar" type="PanelContainer"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -110.0
+rect_min_size = Vector2( 0, 100 )
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_right = 720.0
+margin_bottom = 110.0
+size_flags_vertical = 3
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BtnContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 715.0
+margin_bottom = 105.0
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="MarginContainer/BtnContainer"]
+margin_right = 115.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 35, 100 )
+size_flags_horizontal = 3
+text = "01"
+
+[node name="Button2" type="Button" parent="MarginContainer/BtnContainer"]
+margin_left = 119.0
+margin_right = 234.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 35, 100 )
+size_flags_horizontal = 3
+text = "02"
+
+[node name="Button3" type="Button" parent="MarginContainer/BtnContainer"]
+margin_left = 238.0
+margin_right = 353.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 35, 100 )
+size_flags_horizontal = 3
+text = "03"
+
+[node name="Button4" type="Button" parent="MarginContainer/BtnContainer"]
+margin_left = 357.0
+margin_right = 472.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 35, 100 )
+size_flags_horizontal = 3
+text = "04"
+
+[node name="Button5" type="Button" parent="MarginContainer/BtnContainer"]
+margin_left = 476.0
+margin_right = 591.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 35, 100 )
+size_flags_horizontal = 3
+text = "05"
+
+[node name="Button6" type="Button" parent="MarginContainer/BtnContainer"]
+margin_left = 595.0
+margin_right = 710.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 35, 100 )
+size_flags_horizontal = 3
+text = "06"

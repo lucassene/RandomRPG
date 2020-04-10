@@ -1,0 +1,9 @@
+- swamp sempre perto de água
+- artic mais comum nos polos (terço superior e inferior)
+- deserto nunca perto de floresta (mais comum no centro do mapa)
+- agua dificil perto de deserto
+- floresta normalmente perto de agua
+- grassland terreno de transição
+- APÓS ARTICO, 1/4 APENAS GRASSLAND OU FLORESTA
+- APÓS ISSO, 1/4 ENTRE GRASSLAND(1), FLORESTA(1) E DESERTO(1)
+- NO ÚLTIMO 1/4, ENTRE GRASSLAND(2), FLORESTA(2), DESERTO(1) E SWAMP(1)
