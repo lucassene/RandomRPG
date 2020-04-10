@@ -89,8 +89,8 @@ func generateMap():
 			tile.connect("hover",self,"onTileHover")
 			
 			if x % 2 == 0:
-				yPos = (y * tile.HEX_HEIGHT) + tile.HEX_HEIGHT/2
-				xPos = (x+1) * tile.HEX_WIDTH/2 + (x * tile.HEX_WIDTH/4)
+				yPos = (y * GlobalVar.HEX_HEIGHT) + GlobalVar.HEX_HEIGHT/2
+				xPos = (x+1) * GlobalVar.HEX_WIDTH/2 + (x * GlobalVar.HEX_WIDTH/4)
 				tile.position = Vector2(xPos,yPos)
 				tile.hex.position = tile.position
 				tile.hex.id = Vector2(x,y)
@@ -98,8 +98,8 @@ func generateMap():
 				tile.hex.index = tilesList.size()-1
 				tile.hex.type = GlobalVar.hexType.REGULAR
 			else:
-				yPos = (y * tile.HEX_HEIGHT) + tile.HEX_HEIGHT
-				xPos = (x+1) * tile.HEX_WIDTH/2 + (x * tile.HEX_WIDTH/4)
+				yPos = (y * GlobalVar.HEX_HEIGHT) + GlobalVar.HEX_HEIGHT
+				xPos = (x+1) * GlobalVar.HEX_WIDTH/2 + (x * GlobalVar.HEX_WIDTH/4)
 				tile.position = Vector2(xPos,yPos)
 				tile.hex.position = tile.position
 				tile.hex.id = Vector2(x,y)

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hex-water.png-408fa791e6296145fc7646f56a7e7dfa.stex"
+path="res://.import/hex-desert.png-ae17933f5d48088061e8d48054b60570.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/tiles/hex-water.png"
-dest_files=[ "res://.import/hex-water.png-408fa791e6296145fc7646f56a7e7dfa.stex" ]
+source_file="res://assets/tiles/hex-desert.png"
+dest_files=[ "res://.import/hex-desert.png-ae17933f5d48088061e8d48054b60570.stex" ]
 
 [params]
 

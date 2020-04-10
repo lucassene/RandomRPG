@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hex-artic.png-5fe26ffab95f2599b7b29f3bb1dc6313.stex"
+path="res://.import/hex-mountain.png-5fd046d6d88bfee1a4ff3bffa05b4a73.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/tiles/hex-artic.png"
-dest_files=[ "res://.import/hex-artic.png-5fe26ffab95f2599b7b29f3bb1dc6313.stex" ]
+source_file="res://assets/tiles/hex-mountain.png"
+dest_files=[ "res://.import/hex-mountain.png-5fd046d6d88bfee1a4ff3bffa05b4a73.stex" ]
 
 [params]
 

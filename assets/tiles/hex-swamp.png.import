@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hex-mountain.png-0e095d7ff89cffccbb0691bf365de842.stex"
+path="res://.import/hex-swamp.png-eb71e3188b5032332d8766900cec35ce.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/tiles/hex-mountain.png"
-dest_files=[ "res://.import/hex-mountain.png-0e095d7ff89cffccbb0691bf365de842.stex" ]
+source_file="res://assets/tiles/hex-swamp.png"
+dest_files=[ "res://.import/hex-swamp.png-eb71e3188b5032332d8766900cec35ce.stex" ]
 
 [params]
 

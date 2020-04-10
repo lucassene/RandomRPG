@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hex-hover.png-16ae17ee465a901b486990a903baab24.stex"
+path="res://.import/hex-mountain-overlay.png-a0fda0a2bd5944084a483f86583ee136.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/tiles/hex-hover.png"
-dest_files=[ "res://.import/hex-hover.png-16ae17ee465a901b486990a903baab24.stex" ]
+source_file="res://assets/tiles/hex-mountain-overlay.png"
+dest_files=[ "res://.import/hex-mountain-overlay.png-a0fda0a2bd5944084a483f86583ee136.stex" ]
 
 [params]
 

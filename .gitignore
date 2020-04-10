@@ -1,5 +1,5 @@
-# Art
-.tilesets/
+# Assets
+.assets/
 
 # Godot-specific ignores
 .import/

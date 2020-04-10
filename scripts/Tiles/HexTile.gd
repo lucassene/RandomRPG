@@ -15,17 +15,17 @@ signal hover(node)
 const TOUCH_SENSITIVITY = 0.5
 
 # VARIABLES
-var emptyTxt = preload("res://tilesets/tiles/hex-frame.png")
-var forestTxt = preload("res://tilesets/tiles/hex-forest.png")
-var desertTxt = preload("res://tilesets/tiles/hex-desert.png")
-var waterTxt = preload("res://tilesets/tiles/hex-water.png")
-var articTxt = preload("res://tilesets/tiles/hex-artic.png")
-var grasslandTxt = preload("res://tilesets/tiles/hex-grassland.png")
-var swampTxt = preload("res://tilesets/tiles/hex-swamp.png")
-var fogOfWarTxt = preload("res://tilesets/tiles/hex-fog.png")
+var emptyTxt = preload("res://assets/tiles/hex-frame.png")
+var forestTxt = preload("res://assets/tiles/hex-forest.png")
+var desertTxt = preload("res://assets/tiles/hex-desert.png")
+var waterTxt = preload("res://assets/tiles/hex-water.png")
+var articTxt = preload("res://assets/tiles/hex-artic.png")
+var grasslandTxt = preload("res://assets/tiles/hex-grassland.png")
+var swampTxt = preload("res://assets/tiles/hex-swamp.png")
+var fogOfWarTxt = preload("res://assets/tiles/hex-fog.png")
 
-var mountainTxt = preload("res://tilesets/tiles/hex-mountain-overlay.png")
-var hillTxt = preload("res://tilesets/tiles/hex-hill-overlay.png")
+var mountainTxt = preload("res://assets/tiles/hex-mountain-overlay.png")
+var hillTxt = preload("res://assets/tiles/hex-hill-overlay.png")
 
 var status
 var touchPos
@@ -47,10 +47,6 @@ func _ready():
 	selected.visible = false
 	feature.visible = false
 	fogOfWar.visible = false
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 func _on_HexTile_mouse_entered():
 #	if not status == SELECTED:
@@ -68,7 +64,7 @@ func setTerrain(type):
 			status = GlobalVar.SELECTED
 			selected.visible = true
 		GlobalVar.UNSELECTED:
-			status = GlobalVar.NSELECTED
+			status = GlobalVar.UNSELECTED
 			selected.visible = false
 		GlobalVar.tileType.EMPTY:
 			sprite.texture = emptyTxt

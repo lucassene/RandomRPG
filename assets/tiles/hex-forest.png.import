@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hex-selected.png-e806dd9be694df85b32540f893440792.stex"
+path="res://.import/hex-forest.png-0301b7b5dad58c796416eea1de737c0e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/tiles/hex-selected.png"
-dest_files=[ "res://.import/hex-selected.png-e806dd9be694df85b32540f893440792.stex" ]
+source_file="res://assets/tiles/hex-forest.png"
+dest_files=[ "res://.import/hex-forest.png-0301b7b5dad58c796416eea1de737c0e.stex" ]
 
 [params]
 
