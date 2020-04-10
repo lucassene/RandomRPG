@@ -5,7 +5,7 @@ export (PackedScene) var HexTile
 
 # ON READY SCENES
 onready var playerMarker = $mapPlayer
-onready var playerCamera = $mapPlayer/playerPosition/Camera2D
+onready var playerCamera = $mapPlayer/Camera2D
 onready var tween = $Tween
 
 # SIGNALS
@@ -619,6 +619,7 @@ func movePlayer(target):
 			revealNeighbors(tilesList[playerTile],false)
 		isMoving = false
 		playerCamera.returnToTarget(false)
+		playerCamera.setLimits(tilesList[playerTile],mapSize)
 	
 func revealNeighbors(tile, fog):
 	for each in tile.hex.neighbors:
