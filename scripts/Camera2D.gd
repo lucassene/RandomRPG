@@ -5,17 +5,15 @@ onready var target = get_node("/root/Main/HexGrid/mapPlayer")
 
 # CONSTANTS
 const RETURN_RATE = 0.03
-const MIN_ZOOM = 1
-const MAX_ZOOM = 3
-const ZOOM_SPEED = 0.05
-const ZOOM_SENSITIVITY = 10
+const MAX_ZOOM = 1.5
+const MIN_ZOOM = 4.5
+const ZOOM_SPEED = 0.1
 
 # VARIABLES
 var targetReturn = false
 
-var currentZoom = 1.5 #1.25
-var events = {}
-var lastDragDistance = 0
+var currentZoom = 2
+var isDragging = false
 
 var baseLimitBottom
 var minX
@@ -24,7 +22,7 @@ var minY
 var maxY
 
 func _process(_delta):
-	if target and targetReturn:
+	if target and targetReturn and not isDragging:
 		position = lerp(position,Vector2(0,0), RETURN_RATE)
 
 func returnToTarget(value):
@@ -32,27 +30,37 @@ func returnToTarget(value):
 	pass
 
 func _unhandled_input(event):
+	if event.is_action_pressed("cam_drag"):
+		isDragging = true;
+	if event.is_action_released("cam_drag"):
+		isDragging = false;	
 	
-	if event is InputEventScreenTouch:
-		if event.is_pressed():
-			events[event.index] = event
-		else:
-			events.erase(event.index)
-			
-	if event is InputEventScreenDrag:
-		events[event.index] = event
-		if events.size() == 1:
-			var nextPos = position + event.relative * zoom.x * -1
-			if nextPos.x > minX and nextPos.x < maxX and nextPos.y > minY and nextPos.y < maxY:
-				position = nextPos
-		elif events.size() == 2:
-			var dragDistance = events[0].position.distance_to(events[1].position)
-			if abs(dragDistance - lastDragDistance) > ZOOM_SENSITIVITY:
-				var newZoom = (1 + ZOOM_SPEED) if dragDistance < lastDragDistance else (1 - ZOOM_SPEED)
-				newZoom = clamp(zoom.x * newZoom, MIN_ZOOM, MAX_ZOOM)
-				zoom = Vector2.ONE * newZoom
-				currentZoom = newZoom
-				lastDragDistance = dragDistance
+	if event is InputEventMouseMotion and isDragging:
+		var nextPos = position + event.relative * zoom.x * -1
+		if nextPos.x > minX and nextPos.x < maxX and nextPos.y > minY and nextPos.y < maxY:
+			position = nextPos
+	
+	if event.is_action("cam_zoom_in"):
+		updateZoom(-ZOOM_SPEED,get_local_mouse_position())
+	elif event.is_action("cam_zoom_out"):
+		updateZoom(ZOOM_SPEED,get_local_mouse_position())
+
+func updateZoom(speed, anchor):
+	var oldZoom = currentZoom
+	currentZoom += speed
+	
+	if currentZoom < MAX_ZOOM:
+		currentZoom = MAX_ZOOM
+	elif currentZoom > MIN_ZOOM:
+		currentZoom = MIN_ZOOM
+		
+	if oldZoom == currentZoom: return
+	
+	var zoomCenter = anchor - get_offset()
+	var ratio = 1 - (currentZoom / oldZoom)
+	set_offset(get_offset() + zoomCenter * ratio)
+	
+	set_zoom(Vector2(currentZoom,currentZoom))
 
 func setLimits(playerTile,mapSize):
 	maxX = (mapSize.x - 1 - playerTile.hex.id.x) * (GlobalVar.HEX_WIDTH * 0.75)

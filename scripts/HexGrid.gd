@@ -13,9 +13,6 @@ signal hover(index,id)
 signal mapCreated(timeSpent)
 
 # CONSTANTS
-const MIN_FRACTION = 50.0
-const MAX_FRACTION = 70.0
-
 const TERRAIN_REGULAR = 1.0
 const TERRAIN_HARD = 2.0
 
@@ -28,7 +25,6 @@ var tropicalRegion = 0
 var aridRegion = 0
 var southRegion = 0
 
-var mapSize = Vector2(48,24)
 var terrainFraction
 
 var mountainTiles = []
@@ -58,12 +54,12 @@ func _ready():
 	generateMap()
 	print("Começo: ",tilesList[0].hex.position)
 	print("Final: ",tilesList[tilesList.size()-1].hex.position)
-	playerCamera.setLimits(tilesList[playerTile], mapSize)
+	playerCamera.setLimits(tilesList[playerTile], GlobalVar.mapSize)
 	var totalTime = OS.get_ticks_msec() - timeBefore
 	emit_signal("mapCreated",totalTime)
 
 func generateMap():
-	terrainFraction = rand_range(MIN_FRACTION,MAX_FRACTION)
+	terrainFraction = rand_range(GlobalVar.minLandFraction,GlobalVar.maxLandFraction)
 	print("Fraction: ", terrainFraction)
 	
 	articTiles.clear()
@@ -79,8 +75,8 @@ func generateMap():
 			each.queue_free()
 		tilesList.clear()	
 	
-	for x in range(0, mapSize.x):
-		for y in range(0,mapSize.y):
+	for x in range(0, GlobalVar.mapSize.x):
+		for y in range(0,GlobalVar.mapSize.y):
 			var tile = HexTile.instance()
 			var yPos = 0
 			var xPos = 0
@@ -109,7 +105,7 @@ func generateMap():
 			
 			aStar.add_point(tile.hex.index,tile.hex.position,TERRAIN_REGULAR)
 			#aStar.set_point_disabled(tile.hex.index,true)
-			tile.setNeighbors(mapSize.x,mapSize.y)
+			tile.setNeighbors(GlobalVar.mapSize.x,GlobalVar.mapSize.y)
 				
 			var num = rand_range(0.0,100.0)
 			if num < terrainFraction:
@@ -122,7 +118,7 @@ func generateMap():
 			
 			var rndA = randi() % 3
 			var rndB = randi() % 3 + 1
-			if x <= rndA or x >= mapSize.x -rndB or y <= rndA or y >= mapSize.y -rndB:
+			if x <= rndA or x >= GlobalVar.mapSize.x -rndB or y <= rndA or y >= GlobalVar.mapSize.y -rndB:
 				tile.setTerrain(GlobalVar.tileType.WATER)
 				aStar.set_point_weight_scale(tile.hex.index,TERRAIN_HARD)
 				if waterTiles.find(tile.hex.index) == -1:
@@ -144,11 +140,11 @@ func generateMap():
 #	print("Total tiles: ",total)
 
 func smoothMap():
-	for x in range(2, mapSize.x -3):
-		for y in range(2, mapSize.y -3):
+	for x in range(2, GlobalVar.mapSize.x -3):
+		for y in range(2, GlobalVar.mapSize.y -3):
 			var neighborWater = 0
 			#var dir = Vector2(x,y)
-			var index = y + (x * mapSize.y)
+			var index = y + (x * GlobalVar.mapSize.y)
 			var tile = tilesList[index]
 			var neighbor
 			
@@ -169,7 +165,7 @@ func smoothMap():
 				if emptyTiles.find(tile.hex.index) != -1:
 					emptyTiles.erase(tile.hex.index)
 			elif tile and neighborWater < 3:
-				if tile.hex.id.x > 0 and tile.hex.id.x < mapSize.x -1  and tile.hex.id.y > 0 and tile.hex.id.y < mapSize.y -1:
+				if tile.hex.id.x > 0 and tile.hex.id.x < GlobalVar.mapSize.x -1  and tile.hex.id.y > 0 and tile.hex.id.y < GlobalVar.mapSize.y -1:
 					tile.setTerrain(GlobalVar.tileType.EMPTY)
 					if emptyTiles.find(tile.hex.index) == -1:
 						emptyTiles.append(tile.hex.index)
@@ -182,7 +178,7 @@ func cleanMap():
 	for tile in tilesList:
 		var x = tile.hex.id.x
 		var y = tile.hex.id.y
-		if x > 0 and x < mapSize.x -1 and y > 0 and y < mapSize.y -1:
+		if x > 0 and x < GlobalVar.mapSize.x -1 and y > 0 and y < GlobalVar.mapSize.y -1:
 			var neighbors = tile.hex.neighbors
 			nTotal = 0
 			counter = 0
@@ -566,7 +562,7 @@ func connectTiles():
 
 func playerStart():
 	var rnd = randi() % tilesList.size() -1
-	while tilesList[rnd].hex.terrain == GlobalVar.tileType.WATER or tilesList[rnd].hex.terrain == GlobalVar.tileType.EMPTY:
+	while tilesList[rnd].hex.terrain == GlobalVar.tileType.WATER or tilesList[rnd].hex.terrain == GlobalVar.tileType.EMPTY or tilesList[rnd].hex.feature == GlobalVar.tileFeature.MOUNTAIN or tilesList[rnd].hex.feature == GlobalVar.tileFeature.HILL:
 		rnd = randi() % tilesList.size() -1
 	
 	playerMarker.position = tilesList[rnd].hex.position
@@ -619,7 +615,7 @@ func movePlayer(target):
 			revealNeighbors(tilesList[playerTile],false)
 		isMoving = false
 		playerCamera.returnToTarget(false)
-		playerCamera.setLimits(tilesList[playerTile],mapSize)
+		playerCamera.setLimits(tilesList[playerTile],GlobalVar.mapSize)
 	
 func revealNeighbors(tile, fog):
 	for each in tile.hex.neighbors:

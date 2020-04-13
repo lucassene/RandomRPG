@@ -16,5 +16,10 @@ enum hexType {REGULAR, OFFSET}
 enum tileType {EMPTY, FOREST, DESERT, ARTIC, GRASSLAND, SWAMP, WATER}
 enum tileFeature {MOUNTAIN, HILL}
 
+# VARIABLES
+var mapSize = Vector2(32,16)
+var minLandFraction = 50.0
+var maxLandFraction = 70.0
+
 func _ready():
 	pass

@@ -14,19 +14,25 @@ signal hover(node)
 # CONSTANTS
 const TOUCH_SENSITIVITY = 0.5
 
+# TERRAIN TEXTURES
+const EMPTY_TEXTURE = preload("res://assets/tiles/hex-frame.png")
+const FOREST_TEXTURE = preload("res://assets/tiles/hex-forest.png")
+const DESERT_TEXTURE = preload("res://assets/tiles/hex-desert.png")
+const WATER_TEXTURE = preload("res://assets/tiles/hex-water.png")
+const ARTIC_TEXTURE = preload("res://assets/tiles/hex-artic.png")
+const GRASSLAND_TEXTURE = preload("res://assets/tiles/hex-grassland.png")
+const SWAMP_TEXTURE = preload("res://assets/tiles/hex-swamp.png")
+const FOGOFWAR_TEXTURE = preload("res://assets/tiles/hex-fog.png")
+
+# FEATURE TEXTURES
+const MOUNTAIN_TEXTURE = preload("res://assets/tiles/hex-mountain-overlay.png")
+const HILL_TEXTURE = preload("res://assets/tiles/hex-hill-overlay.png")
+const CAMP_TEXTURE = preload("res://assets/tiles/hex-camp.png")
+const VILLAGE_TEXTURE = preload("res://assets/tiles/hex-village.png")
+const TOWN_TEXTURE = preload("res://assets/tiles/hex-town.png")
+const CITY_TEXTURE = preload("res://assets/tiles/hex-city.png")
+
 # VARIABLES
-var emptyTxt = preload("res://assets/tiles/hex-frame.png")
-var forestTxt = preload("res://assets/tiles/hex-forest.png")
-var desertTxt = preload("res://assets/tiles/hex-desert.png")
-var waterTxt = preload("res://assets/tiles/hex-water.png")
-var articTxt = preload("res://assets/tiles/hex-artic.png")
-var grasslandTxt = preload("res://assets/tiles/hex-grassland.png")
-var swampTxt = preload("res://assets/tiles/hex-swamp.png")
-var fogOfWarTxt = preload("res://assets/tiles/hex-fog.png")
-
-var mountainTxt = preload("res://assets/tiles/hex-mountain-overlay.png")
-var hillTxt = preload("res://assets/tiles/hex-hill-overlay.png")
-
 var status
 var touchPos
 
@@ -49,14 +55,12 @@ func _ready():
 	fogOfWar.visible = false
 
 func _on_HexTile_mouse_entered():
-#	if not status == SELECTED:
-#		hover.visible = true
-#	emit_signal("hover",self)
-	pass
+	if not status == GlobalVar.SELECTED:
+		hover.visible = true
+	emit_signal("hover",self)
 
 func _on_HexTile_mouse_exited():
-#	hover.visible = false
-	pass
+	hover.visible = false
 
 func setTerrain(type):
 	match type:
@@ -67,25 +71,25 @@ func setTerrain(type):
 			status = GlobalVar.UNSELECTED
 			selected.visible = false
 		GlobalVar.tileType.EMPTY:
-			sprite.texture = emptyTxt
+			sprite.texture = EMPTY_TEXTURE
 			hex.terrain = GlobalVar.tileType.EMPTY
 		GlobalVar.tileType.FOREST:
-			sprite.texture = forestTxt
+			sprite.texture = FOREST_TEXTURE
 			hex.terrain = GlobalVar.tileType.FOREST
 		GlobalVar.tileType.DESERT:
-			sprite.texture = desertTxt
+			sprite.texture = DESERT_TEXTURE
 			hex.terrain = GlobalVar.tileType.DESERT
 		GlobalVar.tileType.ARTIC:
-			sprite.texture = articTxt
+			sprite.texture = ARTIC_TEXTURE
 			hex.terrain = GlobalVar.tileType.ARTIC
 		GlobalVar.tileType.GRASSLAND:
-			sprite.texture = grasslandTxt
+			sprite.texture = GRASSLAND_TEXTURE
 			hex.terrain = GlobalVar.tileType.GRASSLAND
 		GlobalVar.tileType.SWAMP:
-			sprite.texture = swampTxt
+			sprite.texture = SWAMP_TEXTURE
 			hex.terrain = GlobalVar.tileType.SWAMP
 		GlobalVar.tileType.WATER:
-			sprite.texture = waterTxt
+			sprite.texture = WATER_TEXTURE
 			hex.terrain = GlobalVar.tileType.WATER
 
 func setFeature(value):
@@ -95,11 +99,11 @@ func setFeature(value):
 			feature.visible = false
 			hex.feature = null
 		GlobalVar.tileFeature.MOUNTAIN:
-			feature.texture = mountainTxt
+			feature.texture = MOUNTAIN_TEXTURE
 			feature.visible = true
 			hex.feature = GlobalVar.tileFeature.MOUNTAIN
 		GlobalVar.tileFeature.HILL:
-			feature.texture = hillTxt
+			feature.texture = HILL_TEXTURE
 			feature.visible = true
 			hex.feature = GlobalVar.tileFeature.HILL
 

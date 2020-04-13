@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/HexGrid.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/infoLayer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/Main.gd" type="Script" id=3]
-[ext_resource path="res://scenes/ToolBar.tscn" type="PackedScene" id=4]
 
 [node name="Main" type="Node"]
 script = ExtResource( 3 )
@@ -23,8 +22,6 @@ __meta__ = {
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="InfoLayer" parent="HUD" instance=ExtResource( 2 )]
-
-[node name="ToolBar" parent="HUD" instance=ExtResource( 4 )]
 
 [node name="HexGrid" parent="." instance=ExtResource( 1 )]
 position = Vector2( 25, 25 )
