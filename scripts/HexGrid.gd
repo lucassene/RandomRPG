@@ -104,7 +104,7 @@ func generateMap():
 				tile.hex.type = GlobalVar.hexType.OFFSET
 			
 			aStar.add_point(tile.hex.index,tile.hex.position,TERRAIN_REGULAR)
-			#aStar.set_point_disabled(tile.hex.index,true)
+			aStar.set_point_disabled(tile.hex.index,true)
 			tile.setNeighbors(GlobalVar.mapSize.x,GlobalVar.mapSize.y)
 				
 			var num = rand_range(0.0,100.0)
@@ -135,9 +135,6 @@ func generateMap():
 	cleanEmpties()
 	connectTiles()
 	playerStart()
-	
-#	var total = emptyTiles.size() + articTiles.size() + forestTiles.size() + grasslandTiles.size() + waterTiles.size() + desertTiles.size() + swampTiles.size()
-#	print("Total tiles: ",total)
 
 func smoothMap():
 	for x in range(2, GlobalVar.mapSize.x -3):
@@ -216,12 +213,15 @@ func generateCoast():
 					waterNeighbor += 1
 			if waterNeighbor >= 1:
 				var rnd = randi() % 100
-				if rnd <= 10:
+				if rnd <= GlobalVar.desertChance:
 					tile.setTerrain(GlobalVar.tileType.DESERT)
 					desertTiles.append(tile.hex.index)
-				elif rnd <= 20:
+				elif rnd <= GlobalVar.swampChance:
 					tile.setTerrain(GlobalVar.tileType.SWAMP)
 					swampTiles.append(tile.hex.index)
+				elif rnd <= GlobalVar.articChance:
+					tile.setTerrain(GlobalVar.tileType.ARTIC)
+					articTiles.append(tile.hex.index)
 				else:
 					tile.setTerrain(GlobalVar.tileType.GRASSLAND)
 					grasslandTiles.append(tile.hex.index)
@@ -230,38 +230,42 @@ func generateCoast():
 	for each in toRemove:
 		emptyTiles.erase(each)
 	
-	reviewTerrain(swampTiles,desertTiles,GlobalVar.tileType.DESERT,grasslandTiles,GlobalVar.tileType.GRASSLAND)
-	reviewTerrain(desertTiles,swampTiles,GlobalVar.tileType.SWAMP,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+	match GlobalVar.mapType:
+		GlobalVar.type.ARTIC:
+			reviewTerrain(desertTiles,articTiles,GlobalVar.tileType.ARTIC,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+			cleanIsolated(desertTiles,articTiles,GlobalVar.tileType.ARTIC,forestTiles,GlobalVar.tileType.FOREST)
+			cleanIsolated(forestTiles,articTiles,GlobalVar.tileType.ARTIC,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+		GlobalVar.type.BALANCED:
+			reviewTerrain(swampTiles,desertTiles,GlobalVar.tileType.DESERT,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+			reviewTerrain(desertTiles,swampTiles,GlobalVar.tileType.SWAMP,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+		GlobalVar.type.DESERTIC:
+			reviewTerrain(forestTiles,grasslandTiles,GlobalVar.tileType.GRASSLAND,desertTiles,GlobalVar.tileType.DESERT)
+			reviewTerrain(desertTiles,grasslandTiles,GlobalVar.tileType.GRASSLAND,forestTiles,GlobalVar.tileType.FOREST)
+			cleanIsolated(desertTiles,grasslandTiles,GlobalVar.tileType.GRASSLAND,forestTiles,GlobalVar.tileType.FOREST)
+			cleanIsolated(grasslandTiles,desertTiles,GlobalVar.tileType.DESERT,forestTiles,GlobalVar.tileType.FOREST)
+		GlobalVar.type.TROPICAL:
+			reviewTerrain(desertTiles,grasslandTiles,GlobalVar.tileType.GRASSLAND,swampTiles,GlobalVar.tileType.SWAMP)
+			reviewTerrain(swampTiles,grasslandTiles,GlobalVar.tileType.GRASSLAND,forestTiles,GlobalVar.tileType.FOREST)
 
 func generateInland():
 	var toRemove = []
 	for index in emptyTiles:
 		var tile = tilesList[index]
-		var grassland = 0
-		var desert = 0
 		var empty = 0
-		for each in tile.hex.neighbors:
-			var neighbor = tilesList[each]
-			if neighbor.hex.terrain == GlobalVar.tileType.DESERT:
-				desert += 1
-			elif neighbor.hex.terrain == GlobalVar.tileType.GRASSLAND:
-				grassland += 1
-			elif neighbor.hex.terrain == GlobalVar.tileType.EMPTY:
-				empty += 1
 		if not empty == tile.hex.neighbors.size() and tile.hex.terrain != GlobalVar.tileType.WATER:
-			if desert > grassland:
+			var chance = randi() % 100
+			if chance <= GlobalVar.desertChance:
 				tile.setTerrain(GlobalVar.tileType.DESERT)
 				desertTiles.append(tile.hex.index)
 				toRemove.append(tile.hex.index)
 			else:
-				var chance = randi() % 100
-				if chance <= 40:
-					tile.setTerrain(GlobalVar.tileType.FOREST)
-					forestTiles.append(tile.hex.index)
-					toRemove.append(tile.hex.index)
-				elif chance <= 70:
+				if chance <= GlobalVar.grasslandChance:
 					tile.setTerrain(GlobalVar.tileType.GRASSLAND)
 					grasslandTiles.append(tile.hex.index)
+					toRemove.append(tile.hex.index)
+				elif chance <= GlobalVar.forestChance:
+					tile.setTerrain(GlobalVar.tileType.FOREST)
+					forestTiles.append(tile.hex.index)
 					toRemove.append(tile.hex.index)
 				else:
 					tile.setTerrain(GlobalVar.tileType.ARTIC)
@@ -271,10 +275,33 @@ func generateInland():
 	for each in toRemove:
 		emptyTiles.erase(each)
 	
-	reviewTerrain(articTiles,forestTiles,GlobalVar.tileType.FOREST,grasslandTiles,GlobalVar.tileType.GRASSLAND)
-	reviewTerrain(forestTiles,articTiles,GlobalVar.tileType.ARTIC,grasslandTiles,GlobalVar.tileType.GRASSLAND)
-	cleanIsolated(articTiles,forestTiles,GlobalVar.tileType.FOREST,desertTiles,GlobalVar.tileType.DESERT)
-	cleanIsolated(forestTiles,articTiles,GlobalVar.tileType.ARTIC,desertTiles,GlobalVar.tileType.DESERT)
+	match GlobalVar.mapType:
+		GlobalVar.type.ARTIC:
+			reviewTerrain(desertTiles,articTiles,GlobalVar.tileType.ARTIC,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+			reviewTerrain(grasslandTiles,articTiles,GlobalVar.tileType.ARTIC,forestTiles,GlobalVar.tileType.FOREST)
+			reviewTerrain(forestTiles,articTiles,GlobalVar.tileType.ARTIC,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+			cleanIsolated(desertTiles,articTiles,GlobalVar.tileType.ARTIC,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+			#cleanIsolated(grasslandTiles,articTiles,GlobalVar.tileType.ARTIC,forestTiles,GlobalVar.tileType.FOREST)
+			#cleanIsolated(forestTiles,articTiles,GlobalVar.tileType.ARTIC,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+		GlobalVar.type.BALANCED:
+			reviewTerrain(desertTiles,grasslandTiles,GlobalVar.tileType.GRASSLAND,forestTiles,GlobalVar.tileType.FOREST)
+			reviewTerrain(articTiles,forestTiles,GlobalVar.tileType.FOREST,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+			reviewTerrain(forestTiles,articTiles,GlobalVar.tileType.ARTIC,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+			cleanIsolated(desertTiles,grasslandTiles,GlobalVar.tileType.GRASSLAND,forestTiles,GlobalVar.tileType.FOREST)
+			cleanIsolated(articTiles,forestTiles,GlobalVar.tileType.FOREST,desertTiles,GlobalVar.tileType.DESERT)
+			#cleanIsolated(forestTiles,articTiles,GlobalVar.tileType.ARTIC,desertTiles,GlobalVar.tileType.DESERT)
+		GlobalVar.type.DESERTIC:
+			reviewTerrain(articTiles,forestTiles,GlobalVar.tileType.FOREST,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+			reviewTerrain(forestTiles,desertTiles,GlobalVar.tileType.DESERT,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+			reviewTerrain(grasslandTiles,desertTiles,GlobalVar.tileType.DESERT,forestTiles,GlobalVar.tileType.FOREST)
+			cleanIsolated(articTiles,forestTiles,GlobalVar.tileType.FOREST,desertTiles,GlobalVar.tileType.DESERT)
+			#cleanIsolated(forestTiles,grasslandTiles,GlobalVar.tileType.GRASSLAND,desertTiles,GlobalVar.tileType.DESERT)
+		GlobalVar.type.TROPICAL:
+			reviewTerrain(desertTiles,grasslandTiles,GlobalVar.tileType.GRASSLAND,forestTiles,GlobalVar.tileType.FOREST)
+			reviewTerrain(articTiles,forestTiles,GlobalVar.tileType.FOREST,grasslandTiles,GlobalVar.tileType.GRASSLAND)
+			reviewTerrain(forestTiles,grasslandTiles,GlobalVar.tileType.GRASSLAND,articTiles,GlobalVar.tileType.ARTIC)
+			cleanIsolated(desertTiles,grasslandTiles,GlobalVar.tileType.GRASSLAND,forestTiles,GlobalVar.tileType.FOREST)
+			cleanIsolated(articTiles,forestTiles,GlobalVar.tileType.FOREST,grasslandTiles,GlobalVar.tileType.GRASSLAND)
 
 func checkList(text,tiles,terrain):
 	var count = 0
@@ -492,8 +519,8 @@ func generateMountains():
 			if validTiles.size() > 1:
 				possibleChains.append(validTiles)
 
-	var mountainChains = randi() % 8 + 3
-	while mountainChains > 0:
+	var mountainChains = randi() % GlobalVar.maxMountains + GlobalVar.minMountains
+	while mountainChains > 0 and possibleChains.size() > 0:
 		var mountains = floor(rand_range(0.0,possibleChains.size()))
 		for each in possibleChains[mountains]:
 			var tile = tilesList[each]
@@ -531,12 +558,10 @@ func generateHills():
 		if not toCheckTiles.has(each):
 			toCheckTiles.append(each)
 	
-	var chance = 10
-	
 	for each in toCheckTiles:
 		var tile = tilesList[each]
 		var rnd = randi() % 100
-		if rnd <= chance and tile.hex.feature == -1:
+		if rnd <= GlobalVar.hillsChance and tile.hex.feature == -1:
 			tile.setFeature(GlobalVar.tileFeature.HILL)
 
 func connectTiles():
@@ -566,6 +591,7 @@ func playerStart():
 		rnd = randi() % tilesList.size() -1
 	
 	playerMarker.position = tilesList[rnd].hex.position
+	tilesList[rnd].setSettlement(randi() % GlobalVar.settlement.size())
 	playerMarker.visible = true
 	tilesList[rnd].setFog(false)
 	revealNeighbors(tilesList[rnd],false)
@@ -595,7 +621,6 @@ func onTileSelected(tile):
 			movePlayer(tile)
 			selectedTile = tile.hex.index
 			tile.setFog(false)
-			#revealNeighbors(tile, false)
 			tile.setTerrain(GlobalVar.SELECTED)
 	else:
 		selectedTile = -1
@@ -651,6 +676,3 @@ func _unhandled_input(event):
 		generateMap()
 		var totalTime = OS.get_ticks_msec() - timeBefore
 		emit_signal("mapCreated",totalTime)
-	
-	if event.is_action_pressed("2"):
-		cleanEmpties()

@@ -34,7 +34,6 @@ const CITY_TEXTURE = preload("res://assets/tiles/hex-city.png")
 
 # VARIABLES
 var status
-var touchPos
 
 var hex = {
 	"index": -1,
@@ -44,15 +43,16 @@ var hex = {
 	"neighbors": [],
 	"terrain": -1,
 	"feature": -1,
+	"settlement": -1,
 	"hasConnection": false,
-	"hasFog": false
+	"hasFog": true
 	}
 	
 func _ready():
 	hover.visible = false
 	selected.visible = false
 	feature.visible = false
-	fogOfWar.visible = false
+	fogOfWar.visible = true
 
 func _on_HexTile_mouse_entered():
 	if not status == GlobalVar.SELECTED:
@@ -106,13 +106,33 @@ func setFeature(value):
 			feature.texture = HILL_TEXTURE
 			feature.visible = true
 			hex.feature = GlobalVar.tileFeature.HILL
+	
+func setSettlement(value):
+	match value:
+		-1:
+			feature.texture = null
+			feature.visible = false
+			hex.feature = null
+		GlobalVar.settlement.CAMP:
+			feature.texture = CAMP_TEXTURE
+			feature.visible = true
+			hex.settlement = GlobalVar.settlement.CAMP
+		GlobalVar.settlement.CITY:
+			feature.texture = CITY_TEXTURE
+			feature.visible = true
+			hex.settlement = GlobalVar.settlement.CITY
+		GlobalVar.settlement.TOWN:
+			feature.texture = TOWN_TEXTURE
+			feature.visible = true
+			hex.settlement = GlobalVar.settlement.TOWN
+		GlobalVar.settlement.VILLAGE:
+			feature.texture = VILLAGE_TEXTURE
+			feature.visible = true
+			hex.settlement = GlobalVar.settlement.VILLAGE
 
 func _on_HexTile_input_event(_viewport, event, _shape_idx):
-	if event is InputEventScreenTouch and event.is_pressed():
-		touchPos = event.position
-	if touchPos and event is InputEventScreenTouch and not event.is_pressed():
-		if event.position.is_equal_approx(touchPos):
-			emit_signal("selected",self)
+	if event.is_action_pressed("ui_select"):
+		emit_signal("selected",self)
 
 func setNeighbors(mapWidth,mapHeight):
 	hex.neighbors = []

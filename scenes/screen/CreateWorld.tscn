@@ -52,9 +52,9 @@ margin_bottom = 24.0
 text = "<>"
 
 [node name="Label2" type="Label" parent="VContainer"]
-margin_top = 113.0
+margin_top = 114.0
 margin_right = 1280.0
-margin_bottom = 163.0
+margin_bottom = 164.0
 rect_min_size = Vector2( 0, 50 )
 text = "Initial region"
 valign = 1
@@ -68,41 +68,88 @@ custom_constants/separation = 20
 
 [node name="Label" type="Label" parent="VContainer/SizeContainer"]
 margin_top = 5.0
-margin_right = 30.0
+margin_right = 60.0
 margin_bottom = 19.0
+rect_min_size = Vector2( 40, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.05
 text = "Size:"
 
 [node name="SizeOption" type="OptionButton" parent="VContainer/SizeContainer"]
-margin_left = 50.0
+margin_left = 80.0
 margin_right = 1280.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 text = "Choose the size"
 
-[node name="TypeContainer" type="HBoxContainer" parent="VContainer"]
+[node name="LandContainer" type="HBoxContainer" parent="VContainer"]
 margin_top = 229.0
 margin_right = 1280.0
 margin_bottom = 254.0
 rect_min_size = Vector2( 0, 25 )
-custom_constants/separation = 16
+custom_constants/separation = 20
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="VContainer/LandContainer"]
+margin_top = 5.0
+margin_right = 60.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 40, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.05
+text = "Land:"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LandOption" type="OptionButton" parent="VContainer/LandContainer"]
+margin_left = 80.0
+margin_right = 1280.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+text = "Choose the land"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="TypeContainer" type="HBoxContainer" parent="VContainer"]
+margin_top = 274.0
+margin_right = 1280.0
+margin_bottom = 299.0
+rect_min_size = Vector2( 0, 25 )
+custom_constants/separation = 20
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Label" type="Label" parent="VContainer/TypeContainer"]
 margin_top = 5.0
-margin_right = 34.0
+margin_right = 60.0
 margin_bottom = 19.0
+rect_min_size = Vector2( 40, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.05
 text = "Type:"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="TypeOption" type="OptionButton" parent="VContainer/TypeContainer"]
-margin_left = 50.0
+margin_left = 80.0
 margin_right = 1280.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 text = "Choose the type"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="ButtonContainer" type="CenterContainer" parent="VContainer"]
-margin_top = 274.0
+margin_top = 319.0
 margin_right = 1280.0
-margin_bottom = 324.0
+margin_bottom = 369.0
 rect_min_size = Vector2( 0, 50 )
 
 [node name="HContainer" type="HBoxContainer" parent="VContainer/ButtonContainer"]
@@ -128,6 +175,7 @@ margin_bottom = 25.0
 rect_min_size = Vector2( 75, 25 )
 text = "Back"
 [connection signal="item_selected" from="VContainer/SizeContainer/SizeOption" to="." method="onSizeSelected"]
+[connection signal="item_selected" from="VContainer/LandContainer/LandOption" to="." method="onLandSelected"]
 [connection signal="item_selected" from="VContainer/TypeContainer/TypeOption" to="." method="onTypeSelected"]
 [connection signal="button_up" from="VContainer/ButtonContainer/HContainer/CreateButton" to="." method="onCreateButtonPressed"]
 [connection signal="button_up" from="VContainer/ButtonContainer/HContainer/BackButton" to="." method="onBackButtonPressed"]

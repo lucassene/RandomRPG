@@ -6,7 +6,6 @@
 [ext_resource path="res://assets/tiles/hex-mountain-overlay.png" type="Texture" id=5]
 [ext_resource path="res://assets/tiles/hex-fog.png" type="Texture" id=6]
 
-
 [node name="HexTile" type="Area2D"]
 script = ExtResource( 2 )
 
@@ -20,6 +19,7 @@ z_index = 1
 texture = ExtResource( 5 )
 
 [node name="fogOfWar" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.784314 )
 z_index = 2
 texture = ExtResource( 6 )
 
