@@ -1,2 +1,2 @@
 # RandomRPG
- Procedural level and content generation on Godot and GDScript.
+ Procedural level and content generation in Godot (GDScript).
