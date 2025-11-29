@@ -1,7 +1,7 @@
 # Random RPG
 > Procedural map generator in Godot, using GDScript
 
-A simple procedural map generator. The player can control different fractions of the map, making it more Artic, Desertic or Tropical. He can also change map's size.
+A simple procedural map generator. The player can control different fractions of the map, making it more Arctic, Desertic or Tropical. They can also change the map's size.
 
 ## Screenshot
 ![Generated Map](https://i.ibb.co/7W5Ssz4/random-RPG-screenshot.jpg)
@@ -19,6 +19,6 @@ This games presents features, such as:
 
 ## Meta
 
-Lucas Sene Grandchamp – lsgrandchamp@gmail.com
+Lucas Sene Grandchamp
 
 [https://github.com/lucassene](https://github.com/lucassene)
